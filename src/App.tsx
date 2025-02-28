@@ -5,7 +5,7 @@ import Game from './Game'
 function App() {
   return (
     <>
-      <Canvas camera={ { fov: 45, near: 0.1, far: 200, position: [ -40, 60, 40 ] } }>
+      <Canvas camera={ { fov: 45, near: 0.1, far: 1000, position: [ 0, 200, 100 ] } }>
         <Game />
       </Canvas>
     </>
