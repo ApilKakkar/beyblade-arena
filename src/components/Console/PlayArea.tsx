@@ -9,7 +9,7 @@ export default function PlayArea(){
     return (
         <>
             <Physics >
-                {/* <BasicHeightfield /> */}
+                <BasicHeightfield />
                 {/* <PivotControls depthTest={false} scale={2}>
                 </PivotControls> */}
                 <Beyblade position={[0,0,0]} color={"skyblue"}/>
@@ -20,7 +20,7 @@ export default function PlayArea(){
 }
 
 function BasicHeightfield() {
-    // ✅ Simple height values (flat with a small dip in the center)
+    // Ensure height values are valid
     const heights = useMemo(() => [
         1, 1, 1, 1, 1,
         1, 0.8, 0.6, 0.8, 1,
@@ -29,16 +29,18 @@ function BasicHeightfield() {
         1, 1, 1, 1, 1
     ], []);
 
+    console.log("Heightfield values:", heights); // Debugging log
+
     return (
         <RigidBody type="fixed">
-            {/* ✅ Basic Heightfield Collider */}
-            <HeightfieldCollider args={[5, 5, heights, { x: 10, y: 2, z: 10 }]} />
-
-            {/* ✅ Visual Representation */}
-            {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            {/* Try adjusting scale to match the grid size */}
+            <HeightfieldCollider args={[5, 5, heights, { x: 5, y: 2, z: 5 }]} />
+            
+            {/* Visual Debug Mesh */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]}>
                 <planeGeometry args={[5, 5]} />
                 <meshStandardMaterial color="gray" wireframe />
-            </mesh> */}
+            </mesh>
         </RigidBody>
     );
 }
@@ -97,7 +99,7 @@ function Beyblade({ position = [0, 2, 0], color = "greenyellow" }) {
     }, []);
 
     return (
-            <RigidBody ref={beyRef} type="dynamic" position={position} rotation={[0, 0, 0]} angularDamping={0.2} scale={[2,2,2]} colliders={false}>
+            <RigidBody ref={beyRef} type="dynamic" position={[0,0,0]} rotation={[0, 0, 0]} angularDamping={0.2} scale={[2,2,2]} colliders={false}>
                 <group onClick={try_spin} >
                         <mesh scale={[1,2,1]}>
                             <boxGeometry args={[1, 1, 1]}/>
