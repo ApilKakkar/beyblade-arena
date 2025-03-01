@@ -34,7 +34,7 @@ export default function PlayArea(){
                     {/* <BasicHeightfield/> */}
                     {/* <PivotControls depthTest={false} scale={2}>
                     </PivotControls> */}
-                    <Beyblade position={[0,20,0]} color={"skyblue"}/>
+                    <Beyblade position={[0,20,0]} color={"white"}/>
                     {/* <Beyblade2 position={[0,20,0]} color={"red"}/> */}
                 </Physics>
                 </Suspense>
@@ -46,10 +46,10 @@ export default function PlayArea(){
 function BasicTrimesh() {
     const vertices = useMemo(
       () => [
-        -15, 4, -15,   -5, 2, -15,    5, 2, -15,   15, 4, -15,
-        -15, 2, -5,     -5, 0, -5,  5, 0, -5,  15, 2, -5,
-        -15, 2, 5,      -5, 0, 5,   5, 0, 5,   15, 2, 5,
-        -15, 4, 15,    -5, 2, 15,     5, 2, 15,     15, 4, 15
+        -15, 8, -15,   -5, 4, -15,    5, 4, -15,   15, 8, -15,
+        -15, 4, -5,     -5, 0, -5,  5, 0, -5,  15, 4, -5,
+        -15, 4, 5,      -5, 0, 5,   5, 0, 5,   15, 4, 5,
+        -15, 8, 15,    -5, 4, 15,     5, 2, 15,     15, 8, 15
       ].map(value => value * 10),
       []
     );
@@ -80,7 +80,7 @@ function BasicTrimesh() {
       <RigidBody type="fixed" colliders={false}>
         <TrimeshCollider args={[vertices, indices]} />
         <mesh geometry={geometry}>
-            <meshStandardMaterial color="gray" side={THREE.DoubleSide} />
+            <meshStandardMaterial side={THREE.DoubleSide} wireframe color="greenyellow" metalness={0.6} roughness={0.5}/>
         </mesh>
       </RigidBody>
     );
@@ -175,11 +175,11 @@ function Beyblade({ position = [0, 2, 0] as [number, number, number], color = "g
                 <group onClick={try_spin} >
                         <mesh scale={[1,2,1]}>
                             <boxGeometry args={[1, 1, 1]}/>
-                            <meshStandardMaterial color={color} />
+                            <meshStandardMaterial color={color} metalness={0.2} roughness={0.3}/>
                         </mesh>
                         <mesh scale={[1,1,1]} position={[0,-0.5,0]} rotation={[0,0,Math.PI]}>
                             <coneGeometry args={[2, 2, 32]}/>
-                            <meshStandardMaterial color={color} />
+                            <meshStandardMaterial color="red" metalness={0.1} roughness={0.2} />
                         </mesh>
                     <CapsuleCollider ref={spineRef} args={[1, 0.5]}/>
                     <CylinderCollider ref={upperRingRef} args={[0.2, 2]} position={[0,0.25,0]}/>
