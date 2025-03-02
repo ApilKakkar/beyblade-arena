@@ -6,6 +6,7 @@ import { KeyboardControls, KeyboardControlsEntry } from '@react-three/drei'
 import { useFrame } from "@react-three/fiber"
 
 import * as THREE from "three";
+import HeightField from "../Debug/HeightField";
     
 enum Controls {
     forward = 'forward',
@@ -30,8 +31,8 @@ export default function PlayArea(){
             <KeyboardControls map={map}>
                 <Suspense>
                 <Physics>
+                    {/* <HeightField/> */}
                     <BasicTrimesh/>
-                    {/* <BasicHeightfield/> */}
                     {/* <PivotControls depthTest={false} scale={2}>
                     </PivotControls> */}
                     <Beyblade position={[0,20,0]} color={"white"}/>
@@ -80,7 +81,7 @@ function BasicTrimesh() {
       <RigidBody type="fixed" colliders={false}>
         <TrimeshCollider args={[vertices, indices]} />
         <mesh geometry={geometry}>
-            <meshStandardMaterial side={THREE.DoubleSide} wireframe color="greenyellow" metalness={0.6} roughness={0.5}/>
+            <meshStandardMaterial side={THREE.DoubleSide} color="greenyellow" metalness={0.6} roughness={0.5}/>
         </mesh>
       </RigidBody>
     );
