@@ -1,4 +1,3 @@
-import { PivotControls } from "@react-three/drei"
 import { CapsuleCollider, CylinderCollider, Physics, RapierCollider, RapierRigidBody, RigidBody, TrimeshCollider } from '@react-three/rapier'
 import { useRef, useEffect, useMemo, Suspense} from "react"
 import { useKeyboardControls } from "@react-three/drei";
@@ -6,7 +5,6 @@ import { KeyboardControls, KeyboardControlsEntry } from '@react-three/drei'
 import { useFrame } from "@react-three/fiber"
 
 import * as THREE from "three";
-import HeightField from "../Debug/HeightField";
     
 enum Controls {
     forward = 'forward',
@@ -121,7 +119,7 @@ function Beyblade({ position = [0, 2, 0] as [number, number, number], color = "g
         }
     };
 
-    const [sub, get] = useKeyboardControls<Controls>()
+    const [sub] = useKeyboardControls<Controls>()
 
     useEffect(() => {
         // return sub(
@@ -147,7 +145,7 @@ function Beyblade({ position = [0, 2, 0] as [number, number, number], color = "g
 
     useFrame(() => {
     // Fetch fresh data from store
-        const pressed = get().back
+        // const pressed = get().back
     })
 
     useEffect(() => {
