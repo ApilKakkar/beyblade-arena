@@ -27,9 +27,13 @@ export default function PlayArea(){
         <>
             <KeyboardControls map={map}>
                 <Suspense>
-                <Physics debug gravity={[0,-9.8,0]}>
+                <Physics gravity={[0,-9.8,0]}>
                     <BeybladeBowl/>
-                    <Beyblade position={[0,40,0]} color={"white"}/>
+                    <Beyblade position={[0,40,0]}/>
+                    <Beyblade position={[0,40,40]}/>
+                    <Beyblade position={[0,40,-40]}/>
+                    <Beyblade position={[40,40,0]}/>
+                    <Beyblade position={[-40,40,0]}/>
                     {/* <PivotControls depthTest={false} scale={2}>
                     </PivotControls> */}
                 </Physics>

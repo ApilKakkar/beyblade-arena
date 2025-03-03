@@ -1,12 +1,19 @@
 import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
 import { useMemo } from "react";
 import * as THREE from "three";
+import { useLoader } from "@react-three/fiber";
 
 export default function BeybladeBowl() {
     const gridSize = 32; // Increase resolution
     const maxHeight = 1; // Edge height
     const minHeight = 0; // Center depth
     const scale = { x: 150, y: 45, z: 150 }; // Same as HeightfieldCollider
+
+    const colorMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_diff_4k.jpg");
+    const normalMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_nor_gl_4k.jpg");
+    const roughnessMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_rough_4k.jpg");
+
+    
 
     // Generate heightmap data
     const heights = useMemo(() => {
@@ -25,9 +32,11 @@ export default function BeybladeBowl() {
     }, []);
 
     // Generate vertices and indices for the mesh
-    const { vertices, indices } = useMemo(() => {
+    // Generate vertices, indices, and UVs for the mesh
+    const { vertices, indices, uvs } = useMemo(() => {
         const verts = [];
         const idxs = [];
+        const uvCoords = [];
 
         for (let y = 0; y < gridSize; y++) {
             for (let x = 0; x < gridSize; x++) {
@@ -37,6 +46,9 @@ export default function BeybladeBowl() {
                 const posZ = (y / (gridSize - 1) - 0.5) * scale.z;
 
                 verts.push(posX, posY, posZ);
+
+                // UV coordinates for proper texture mapping
+                uvCoords.push(x / (gridSize - 1), y / (gridSize - 1));
 
                 if (x < gridSize - 1 && y < gridSize - 1) {
                     const topLeft = y * gridSize + x;
@@ -50,7 +62,7 @@ export default function BeybladeBowl() {
             }
         }
 
-        return { vertices: verts, indices: idxs };
+        return { vertices: verts, indices: idxs, uvs: uvCoords };
     }, [heights]);
 
     return (
@@ -62,12 +74,18 @@ export default function BeybladeBowl() {
 
             {/* Visual Debugging Mesh */}
             <mesh>
-                <bufferGeometry attach="geometry">
-                    <bufferAttribute
+                <bufferGeometry attach="geometry" ref={(geometry) => geometry?.computeVertexNormals()}>
+                <bufferAttribute
                         attach="attributes-position"
                         array={new Float32Array(vertices)}
                         itemSize={3}
                         count={vertices.length / 3}
+                    />
+                    <bufferAttribute
+                        attach="attributes-uv"
+                        array={new Float32Array(uvs)}
+                        itemSize={2}
+                        count={uvs.length / 2}
                     />
                     <bufferAttribute
                         attach="index"
@@ -76,7 +94,12 @@ export default function BeybladeBowl() {
                         count={indices.length}
                     />
                 </bufferGeometry>
-                <meshStandardMaterial  color="pink" side={THREE.DoubleSide}  />
+                <meshStandardMaterial
+                    map={colorMap}
+                    normalMap={normalMap}
+                    roughnessMap={roughnessMap}
+                    side={THREE.DoubleSide}
+                />
             </mesh>
         </group>
     );

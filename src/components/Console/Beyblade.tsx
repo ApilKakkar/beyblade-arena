@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { RigidBody, CapsuleCollider, CylinderCollider, RapierRigidBody, RapierCollider } from "@react-three/rapier";
 import { useKeyboardControls } from "@react-three/drei";
 import * as THREE from "three";
+import { useLoader } from "@react-three/fiber";
 
 enum Controls {
     forward = 'forward',
@@ -12,11 +13,16 @@ enum Controls {
     jump = 'jump',
 }
 
-export default function Beyblade({ position = [0, 2, 0] as [number, number, number], color = "greenyellow" }) {
+export default function Beyblade({ position = [0, 2, 0] as [number, number, number]}) {
     const beyRef = useRef<RapierRigidBody>(null);
     const spineRef = useRef<RapierCollider>(null);
     const upperRingRef = useRef<RapierCollider>(null);
     const lowerRingRef = useRef<RapierCollider>(null);
+
+    const colorMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_diff_4kop.jpg");
+    const normalMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_nor_gl_4k.jpg");
+    const roughnessMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_rough_4k.jpg");
+    
 
     // One-time spin effect on click
     const try_spin = () => {
@@ -32,9 +38,9 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
     
             // Apply torque impulse in the rotated up direction
             beyRef.current.applyTorqueImpulse({ 
-                x: localUp.x * 1000, 
-                y: localUp.y * 1000, 
-                z: localUp.z * 1000 
+                x: - localUp.x * 1000, 
+                y: - localUp.y * 1000, 
+                z: - localUp.z * 1000 
             }, true);
     
             // Apply movement impulse along the same rotated axis
@@ -89,8 +95,8 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
             // });
 
             // ✅ Fine-tune physics for realistic movement
-            beyRef.current.setAngularDamping(0.3);
-            beyRef.current.setLinearDamping(0.08);
+            beyRef.current.setAngularDamping(0.15);
+            beyRef.current.setLinearDamping(0.05);
         }
     }, []);
 
@@ -101,11 +107,21 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
                 <group onClick={try_spin} >
                         <mesh scale={[1,2,1]}>
                             <boxGeometry args={[1, 1, 1]}/>
-                            <meshStandardMaterial color={color} metalness={0.2} roughness={0.3}/>
+                            <meshStandardMaterial 
+                                map={colorMap}
+                                normalMap={normalMap}
+                                roughnessMap={roughnessMap} 
+                                metalness={0.1} 
+                                roughness={0.2} />
                         </mesh>
                         <mesh scale={[1,1,1]} position={[0,-0.5,0]} rotation={[0,0,Math.PI]}>
                             <coneGeometry args={[2, 2, 32]}/>
-                            <meshStandardMaterial color="red" metalness={0.1} roughness={0.2} />
+                            <meshStandardMaterial 
+                                map={colorMap}
+                                normalMap={normalMap}
+                                roughnessMap={roughnessMap} 
+                                metalness={0.1} 
+                                roughness={0.2} />
                         </mesh>
                     <CapsuleCollider ref={spineRef} args={[1, 0.5]}/>
                     <CylinderCollider ref={upperRingRef} args={[0.2, 2]} position={[0,0.25,0]}/>
