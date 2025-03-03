@@ -9,8 +9,8 @@ export default function BeybladeBowl() {
     const minHeight = 0; // Center depth
     const scale = { x: 150, y: 45, z: 150 }; // Same as HeightfieldCollider
 
-    const colorMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_diff_4k.jpg");
-    const normalMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_nor_gl_4k.jpg");
+    const colorMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_diff_4kop.jpg");
+    const normalMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_nor_gl_4k.jpg");
     const roughnessMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_rough_4k.jpg");
 
     

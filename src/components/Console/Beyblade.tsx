@@ -19,9 +19,9 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
     const upperRingRef = useRef<RapierCollider>(null);
     const lowerRingRef = useRef<RapierCollider>(null);
 
-    const colorMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_diff_4kop.jpg");
-    const normalMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_nor_gl_4k.jpg");
-    const roughnessMap = useLoader(THREE.TextureLoader, "/textures/painted_brick_blue/painted_brick_rough_4k.jpg");
+    const colorMap = useLoader(THREE.TextureLoader, "/textures/fabric_blue/fabric_pattern_05_col_01_1k.png");
+    const normalMap = useLoader(THREE.TextureLoader, "/textures/metal_rust/metal_grate_rusty_nor_gl_4k.jpg");
+    const roughnessMap = useLoader(THREE.TextureLoader, "/textures/fabric_blue/fabric_pattern_05_rough_1k.jpg");
     
 
     // One-time spin effect on click
@@ -111,8 +111,7 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
                                 map={colorMap}
                                 normalMap={normalMap}
                                 roughnessMap={roughnessMap} 
-                                metalness={0.1} 
-                                roughness={0.2} />
+                                 />
                         </mesh>
                         <mesh scale={[1,1,1]} position={[0,-0.5,0]} rotation={[0,0,Math.PI]}>
                             <coneGeometry args={[2, 2, 32]}/>
@@ -120,8 +119,7 @@ export default function Beyblade({ position = [0, 2, 0] as [number, number, numb
                                 map={colorMap}
                                 normalMap={normalMap}
                                 roughnessMap={roughnessMap} 
-                                metalness={0.1} 
-                                roughness={0.2} />
+                                />
                         </mesh>
                     <CapsuleCollider ref={spineRef} args={[1, 0.5]}/>
                     <CylinderCollider ref={upperRingRef} args={[0.2, 2]} position={[0,0.25,0]}/>
